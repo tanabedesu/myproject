@@ -5,6 +5,7 @@ from sklearn.ensemble import RandomForestRegressor
 from scipy.signal import find_peaks
 import matplotlib.pyplot as plt
 from datetime import datetime
+import os
 
 st.markdown(
     """
@@ -328,7 +329,9 @@ else:
 # --- Decide which method to use ---
 if year <= 2024:
     # --- Load data ---
-    csv_path = f"world/{country}_{year}_ndvi_temp.csv"
+
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(BASE_DIR, "world", f"{country}_{year}_ndvi_temp.csv")
     try:
         df = pd.read_csv(csv_path)
     except FileNotFoundError:
@@ -575,3 +578,4 @@ if st.button("Show GDD Animation"):
 
 
         placeholder.pyplot(fig)
+
