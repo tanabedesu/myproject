@@ -478,7 +478,7 @@ def country_to_iso3(name):
 df['ISO_A3'] = df['country_name'].apply(country_to_iso3)
 df_bloom = df[['date','NDVI','GDD_cumsum','country_name','ISO_A3']].copy()
 
-df_bloom_reduced = df_bloom.iloc[::5, :]
+df_bloom_reduced = df_bloom.iloc[::10, :]
 dates = df_bloom['date'].sort_values().unique()
 
 fig = go.Figure(
@@ -565,6 +565,7 @@ if st.button("Show GDD Animation"):
         placeholder.pyplot(fig)
 
         ax.collections[-1].remove()
+
 
 
 
