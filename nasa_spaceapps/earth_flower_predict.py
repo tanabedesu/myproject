@@ -456,7 +456,9 @@ import pycountry
 from datetime import datetime
 
 # CSVを読み込む
-df = pd.read_csv('world/Japan_Tokyo_2024_ndvi_temp.csv')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(BASE_DIR, "world", f"{country}_{year}_ndvi_temp.csv")
+df = pd.read_csv(csv_path)
 
 # 日付列をdatetime型に変換
 df['date'] = pd.to_datetime(df['date'])
@@ -578,4 +580,5 @@ if st.button("Show GDD Animation"):
 
 
         placeholder.pyplot(fig)
+
 
