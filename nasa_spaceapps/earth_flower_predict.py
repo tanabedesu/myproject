@@ -301,7 +301,7 @@ else:
 
 country = st.selectbox("Select Country", filtered_countries)
 
-# 🌿 Select plant type (auto threshold)
+# Select plant type (auto threshold)
 plant_types = {
     "Sakura (Cherry Blossom)": {"gdd": 120, "ndvi": 15.0},
     "magnolia": {"gdd": 100, "ndvi": 2.0},
@@ -365,7 +365,7 @@ if year <= 2024:
         """, unsafe_allow_html=True)
     else:
         pred_date = None
-        st.warning(f"⚠️ No bloom predicted for this period for {country}.")
+        st.warning(f" No bloom predicted for this period for {country}.")
     plot_values = df[['date','NDVI','GDD_cumsum']].copy()
     plot_label = "NDVI"
 else:
@@ -413,7 +413,7 @@ else:
         st.success(f"✅ Predicted Bloom Date for {country} {year} ({plant_choice}): {pred_date.date()}")
     else:
         pred_date = None
-        st.warning(f"⚠️ No bloom predicted for this period for {country}.")
+        st.warning(f" No bloom predicted for this period for {country}.")
     plot_values = future_df[['date','NDVI_pred']].copy()
     plot_label = "Predicted NDVI"
 
@@ -561,6 +561,7 @@ if st.button("Show GDD Animation"):
 
 
         placeholder.pyplot(fig)
+
 
 
 
