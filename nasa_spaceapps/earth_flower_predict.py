@@ -389,7 +389,7 @@ else:
     # Train model
     X = train_df[['GDD_cumsum','T2M']]
     y_train = train_df['NDVI']
-    model = RandomForestRegressor(n_estimators=300, max_depth=10, random_state=42)
+    model = RandomForestRegressor(n_estimators=50, max_depth=5, random_state=42)
     model.fit(X, y_train)
 
     # Generate future data
@@ -478,6 +478,7 @@ def country_to_iso3(name):
 df['ISO_A3'] = df['country_name'].apply(country_to_iso3)
 df_bloom = df[['date','NDVI','GDD_cumsum','country_name','ISO_A3']].copy()
 
+df_bloom_reduced = df_bloom.iloc[::5, :]
 dates = df_bloom['date'].sort_values().unique()
 
 fig = go.Figure(
@@ -546,7 +547,7 @@ norm_gdd = mcolors.Normalize(vmin=df_bloom['GDD_cumsum'].min(), vmax=df_bloom['G
 # --- GDD animation ---
 if st.button("Show GDD Animation"):
     placeholder = st.empty()
-    for i, row in df_bloom.iterrows():
+    for i, row in df_bloom_reduced.iterrows():
         gdd_value = row['GDD_cumsum']
         date = row['date']
 
@@ -561,6 +562,7 @@ if st.button("Show GDD Animation"):
 
 
         placeholder.pyplot(fig)
+
 
 
 
