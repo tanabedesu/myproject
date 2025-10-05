@@ -45,7 +45,6 @@ st.markdown(
 
 # --- User Input ---
 world_pref_names = [
-    "Åland_Islands_Archipelago",
 "Albania_Berat",
 "Algeria_Adrar",
 "American_Samoa_Eastern",
@@ -573,5 +572,6 @@ if st.button("Show GDD Animation"):
         japan.plot(ax=ax, color=cmap_gdd(norm_gdd(gdd_value)), edgecolor='black')
         ax.set_title(f"Cumulative GDD on {date.date()} (Japan)", fontsize=16)
         ax.axis('off')
+
 
         placeholder.pyplot(fig)
