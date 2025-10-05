@@ -277,16 +277,14 @@ world_pref_names = [
 st.markdown(
     """
     <style>
-    /* ページ全体の背景：地球＋植物イラスト */
     .stApp {
         background-color: #9ccc9c;  
-        background-image: url('https://example.com/earth_plants_top.png'); /* 植物豊かな地球イラスト */
+        background-image: url('https://example.com/earth_plants_top.png');
         background-repeat: no-repeat;
         background-size: cover;
         background-position: top center;
     }
 
-    /* サイドバー背景色 */
     .css-1d391kg {  
         background-color: #f5ede3;
     }
@@ -332,6 +330,10 @@ if year <= 2024:
 
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     csv_path = os.path.join(BASE_DIR, "world", f"{country}_{year}_ndvi_temp.csv")
+    @st.cache_data
+    def load_data(path):
+        return pd.read_csv(path)
+        
     try:
         df = pd.read_csv(csv_path)
     except FileNotFoundError:
@@ -369,6 +371,9 @@ if year <= 2024:
 else:
     # RandomForest prediction method
     train_years = [y for y in range(2019, 2025)]
+    @st.cache_data
+    def load_data(path):
+        return pd.read_csv(path)
     dfs = []
     for y in train_years:
         path = f"world/{country}_{y}_ndvi_temp.csv"
@@ -415,14 +420,13 @@ else:
 # --- Plot ---
 fig, ax = plt.subplots(figsize=(10,4))
 
-# NDVI と GDD のプロット
+# Plot NDVI and GDD
 if year <= 2024:
     ax.plot(plot_values['date'], plot_values['NDVI'], label="NDVI", color='green')
     ax.plot(plot_values['date'], plot_values['GDD_cumsum'], label="Cumulative GDD", color='orange')
 else:
     ax.plot(plot_values['date'], plot_values['NDVI_pred'], label="Predicted NDVI", color='green')
 
-# 開花日の強調表示
 if pred_date is not None:
     ndvi_col = 'NDVI' if year <= 2024 else 'NDVI_pred'
     bloom_ndvi = plot_values.loc[plot_values['date']==pred_date, ndvi_col].values
@@ -431,11 +435,8 @@ if pred_date is not None:
     else:
         bloom_ndvi = bloom_ndvi[0]
     
-    # 縦線
     ax.axvline(pred_date, color='red', linestyle='--', alpha=0.8)
-    # マーカー
     ax.scatter(pred_date, bloom_ndvi, color='red', s=150, zorder=5, marker='*')
-    # 注釈
     ax.annotate(f"Bloom Day:\n{pred_date.date()}", 
                 xy=(pred_date, bloom_ndvi), 
                 xytext=(10, 30), 
@@ -455,20 +456,20 @@ import plotly.graph_objects as go
 import pycountry
 from datetime import datetime
 
-# CSVを読み込む
+#Load the CSV file
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 csv_path = os.path.join(BASE_DIR, "world", f"{country}_{year}_ndvi_temp.csv")
 df = pd.read_csv(csv_path)
 
-# 日付列をdatetime型に変換
+# Convert the date column to datetime type
 df['date'] = pd.to_datetime(df['date'])
 
-# 国名列を追加（東京は日本）
+# Add a column for country name
 df['country_name'] = 'Japan'
-# --- 既存のdf_bloom準備 ---
-# 例: df_bloom = pd.DataFrame({'date': [...], 'NDVI': [...], 'country_name': [...]})
+# Prepare the existing df_bloom 
+# ex: df_bloom = pd.DataFrame({'date': [...], 'NDVI': [...], 'country_name': [...]})
 
-# ISO3コードを追加
+# ISO3 code
 def country_to_iso3(name):
     try:
         return pycountry.countries.lookup(name).alpha_3
@@ -537,32 +538,12 @@ url = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geo
 world = gpd.read_file(url)
 cmap_gdd = plt.cm.YlOrRd
 norm_gdd = mcolors.Normalize(vmin=df_bloom['GDD_cumsum'].min(), vmax=df_bloom['GDD_cumsum'].max())
-# NDVI 用カラーマップと正規化
-#cmap = plt.cm.RdYlGn
-#norm = mcolors.Normalize(vmin=df_bloom['NDVI'].min(), vmax=df_bloom['NDVI'].max())
 
-# GDD 用カラーマップと正規化
+# Colormap and normalization for GDD
 cmap_gdd = plt.cm.YlOrRd
 norm_gdd = mcolors.Normalize(vmin=df_bloom['GDD_cumsum'].min(), vmax=df_bloom['GDD_cumsum'].max())
 
-#if st.button("Show NDVI Animation"):
- #   placeholder = st.empty()
-  #  for i, row in df_bloom.iterrows():
-   #     ndvi_value = row['NDVI']
-    #    date = row['date']
-
-     #   japan = world[world['ADMIN']=='Japan'].copy()
-      #  japan['NDVI'] = ndvi_value
-
-       # fig, ax = plt.subplots(1, 1, figsize=(12,8))
-        #world.plot(ax=ax, color='lightgrey', edgecolor='black')
-        #japan.plot(ax=ax, color=cmap(norm(ndvi_value)), edgecolor='black')
-        #ax.set_title(f"NDVI on {date.date()} (Tokyo)", fontsize=16)
-        #ax.axis('off')
-
-        #placeholder.pyplot(fig)
-        
-       # --- GDD アニメーション ---
+# --- GDD animation ---
 if st.button("Show GDD Animation"):
     placeholder = st.empty()
     for i, row in df_bloom.iterrows():
@@ -580,5 +561,6 @@ if st.button("Show GDD Animation"):
 
 
         placeholder.pyplot(fig)
+
 
 
