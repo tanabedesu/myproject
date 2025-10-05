@@ -547,6 +547,10 @@ norm_gdd = mcolors.Normalize(vmin=df_bloom['GDD_cumsum'].min(), vmax=df_bloom['G
 # --- GDD animation ---
 if st.button("Show GDD Animation"):
     placeholder = st.empty()
+    fig, ax = plt.subplots(figsize=(12, 8))
+    world.plot(ax=ax, color='lightgrey', edgecolor='black')
+    ax.axis('off')
+    
     for i, row in df_bloom_reduced.iterrows():
         gdd_value = row['GDD_cumsum']
         date = row['date']
@@ -554,14 +558,13 @@ if st.button("Show GDD Animation"):
         japan = world[world['ADMIN']=='Japan'].copy()
         japan['GDD'] = gdd_value
 
-        fig, ax = plt.subplots(1, 1, figsize=(12,8))
-        world.plot(ax=ax, color='lightgrey', edgecolor='black')
         japan.plot(ax=ax, color=cmap_gdd(norm_gdd(gdd_value)), edgecolor='black')
-        ax.set_title(f"Cumulative GDD on {date.date()} (Japan)", fontsize=16)
-        ax.axis('off')
 
+        ax.set_title(f"Cumulative GDD on {date.date()} (Japan)", fontsize=16)
 
         placeholder.pyplot(fig)
+
+        ax.collections[-1].remove()
 
 
 
