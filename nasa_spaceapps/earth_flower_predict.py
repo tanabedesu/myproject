@@ -376,7 +376,10 @@ else:
         return pd.read_csv(path)
     dfs = []
     for y in train_years:
-        path = f"world/{country}_{y}_ndvi_temp.csv"
+        import os
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(BASE_DIR, "world", f"{country}_{y}_ndvi_temp.csv")
+
         try:
             dfs.append(pd.read_csv(path))
         except FileNotFoundError:
@@ -562,6 +565,7 @@ if st.button("Show GDD Animation"):
         ax.set_title(f"Cumulative GDD on {date.date()} (Japan)", fontsize=16)
 
         placeholder.pyplot(fig)
+
 
 
 
