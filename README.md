@@ -1,4 +1,6 @@
-Please navigate to the nasa_spaceapps folder.
+**Please navigate to the nasa_spaceapps folder.**
+
+
 https://myproject-vmydkennwbwkapdzy9kfkx.streamlit.app/ The URL above is the public URL of the project.
 
 **For demo purposes, selecting Tokyo, Japan allows you to explore all available tool features.** (Because of data volume constraints, only the selected datasets are stored in this GitHub repository.)
