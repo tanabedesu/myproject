@@ -7,9 +7,9 @@ This program provides interactive visualizations and predictions for plant bloom
 
 **Predicted bloom dates**: Based on the correlation between NDVI and cumulative GDD, bloom dates can be provided for all years from 2019 onward.
 
-**NDVI visualization**: Users can explore yearly changes in NDVI values for a selected year and region on a 3D globe model (2019–2024).
+**NDVI visualization**: Users can explore yearly changes in NDVI values for a selected year and region on a 3D globe model (2019–2022,2024).
 
-**GDD animation**: Cumulative GDD trends can be animated on a map, allowing an intuitive understanding of plant development patterns throughout the year (2019–2024).
+**GDD animation**: Cumulative GDD trends can be animated on a map, allowing an intuitive understanding of plant development patterns throughout the year (2019–2022,2024).
 
 With this tool, users can gain insights into historical bloom patterns, environmental influences, and future predictions in a visually engaging and intuitive format.
 
