@@ -5,7 +5,7 @@ https://myproject-vmydkennwbwkapdzy9kfkx.streamlit.app/ The URL above is the pub
 
 This program provides interactive visualizations and predictions for plant bloom patterns:
 
-**Predicted bloom dates**: Based on the correlation between NDVI and cumulative GDD, bloom dates can be provided for all years from 2019 onward.
+**Predicted bloom dates**: Based on the correlation between NDVI and cumulative GDD, bloom dates can be provided for all years from 2019 onward.(except for 2023)
 
 **NDVI visualization**: Users can explore yearly changes in NDVI values for a selected year and region on a 3D globe model (2019–2022,2024).
 
